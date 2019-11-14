@@ -23,3 +23,9 @@ Simply run the compiled file from the command line:
 ./roguelike
 ```
 
+## Gameplay Instructions
+
+- Your character is represented by `옷`
+- Move left, right, up, and down with the arrow keys
+- Explore around in the wide open grassy field, just know that you cannot move through the giant block of stone
+
