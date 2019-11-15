@@ -38,6 +38,8 @@ func InitLogger(
 		log.Ldate|log.Ltime|log.Lshortfile)
 }
 
+// Player
+
 type Player struct {
 	*tl.Entity
 	prevX int
@@ -70,11 +72,24 @@ func (player *Player) Tick(event tl.Event) {
 }
 
 func (player *Player) Collide(collision tl.Physical) {
-	// Check if it's a Rectangle we're colliding with
 	if _, ok := collision.(*tl.Rectangle); ok {
 		player.SetPosition(player.prevX, player.prevY)
 	}
 }
+
+// game / level / map
+
+func addPlayer(level *tl.BaseLevel, fg tl.Attr) (player *Player, err error) {
+	p := Player{
+		Entity: tl.NewEntity(1, 1, 1, 1),
+		level:  level,
+	}
+	p.SetCell(0, 0, &tl.Cell{Fg: fg, Ch: '옷'})
+	level.AddEntity(&p)
+	return &p, nil
+}
+
+// main entry point
 
 func main() {
 	InitLogger(os.Stdout, os.Stdout, os.Stdout, os.Stderr)
@@ -90,14 +105,10 @@ func main() {
 
 	level.AddEntity(tl.NewRectangle(10, 10, 50, 20, tl.ColorWhite))
 
-	player := Player{
-		Entity: tl.NewEntity(1, 1, 1, 1),
-		level:  level,
+	_, err := addPlayer(level, tl.ColorRed)
+	if err != nil {
+		Error.Println("failed to add player to game")
 	}
-
-	player.SetCell(0, 0, &tl.Cell{Fg: tl.ColorRed, Ch: '옷'})
-
-	level.AddEntity(&player)
 
 	game.Screen().SetLevel(level)
 	game.Start()
