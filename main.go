@@ -1,45 +1,25 @@
 package main
 
 import (
-	rl "github.com/brianshef/roguelike/game"
-	// "fmt"
-	"io"
-	"log"
-	"os"
-
 	tl "github.com/JoelOtter/termloop"
+	rl "github.com/brianshef/roguelike/game"
+	"github.com/brianshef/roguelike/logger"
 )
 
 const (
-	logOpts = log.Ldate | log.Ltime | log.Lshortfile
-	fps     = 30
+	fps = 30
 )
 
 var (
-	debug   *log.Logger
-	info    *log.Logger
-	warning *log.Logger
-	err     *log.Logger
-
 	player *rl.Player
+	log    *logger.Log
 )
-
-func initLogger(
-	debugHandle io.Writer,
-	infoHandle io.Writer,
-	warningHandle io.Writer,
-	errorHandle io.Writer) {
-
-	debug = log.New(debugHandle, "[DEBUG] ", logOpts)
-	info = log.New(infoHandle, "[INFO] ", logOpts)
-	warning = log.New(warningHandle, "[WARN] ", logOpts)
-	err = log.New(errorHandle, "[ERROR] ", logOpts)
-}
 
 // main entry point
 
 func main() {
-	initLogger(os.Stdout, os.Stdout, os.Stdout, os.Stderr)
+
+	log = logger.NewLoggers()
 
 	game := tl.NewGame()
 	game.Screen().SetFps(fps)
@@ -55,7 +35,7 @@ func main() {
 	if player == nil {
 		p, e := rl.InitPlayer(level, tl.ColorRed)
 		if e != nil {
-			err.Println("failed to add player to game")
+			log.Error.Println("failed to add player to game")
 			panic(e)
 		}
 		player = p
