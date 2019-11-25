@@ -9,9 +9,9 @@ import (
 const fps = 30
 
 var (
-	player *Player
 	// Game is the TermLoop game instance
-	Game *tl.Game
+	Game   *tl.Game
+	player *Player
 )
 
 // NewGame is a factory function that constructs a new game instance
@@ -21,8 +21,8 @@ func NewGame() (g *tl.Game, err error) {
 
 	}
 
-	Game = tl.NewGame()
-	Game.Screen().SetFps(fps)
+	g = tl.NewGame()
+	g.Screen().SetFps(fps)
 
 	level := tl.NewBaseLevel(tl.Cell{
 		Bg: tl.ColorBlack,
@@ -33,14 +33,18 @@ func NewGame() (g *tl.Game, err error) {
 	level.AddEntity(tl.NewRectangle(10, 10, 50, 20, tl.ColorWhite))
 
 	if player == nil {
-		p, e := InitPlayer(level, tl.ColorRed)
-		if e != nil {
-			return Game, errors.New("failed to add player to game")
+		p, err := InitPlayer(level, tl.ColorRed)
+		if err != nil {
+			return g, errors.New("failed to add player to game")
 		}
 		player = p
 	}
 
-	Game.Screen().SetLevel(level)
+	g.Screen().AddEntity(tl.NewRectangle(0, 0, 100, 3, tl.ColorBlack))
+	playerInfo := NewPlayerInfo(player)
+	g.Screen().AddEntity(playerInfo)
 
-	return Game, nil
+	g.Screen().SetLevel(level)
+
+	return
 }
