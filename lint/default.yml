@@ -1,0 +1,27 @@
+# default check mode
+# if issues, print and exit successful (no failure)
+run:
+
+  issues-exit-code: 0
+# output configuration options
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+linters:
+  enable:
+    - deadcode
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - structcheck
+    - typecheck
+    - unused
+    - varcheck
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

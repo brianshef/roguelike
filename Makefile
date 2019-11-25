@@ -5,18 +5,25 @@ ifndef VERSION
 endif
 
 
-.PHONY: all clean build install uninstall
+.PHONY: all clean check build install uninstall
 
 
-all: clean build
+all: clean check build
 
 build:
-	@echo 'Building roguelike...'
+	@echo 'Building roguelike ...'
 	@go build -ldflags '-s -w -X main.Version='${VERSION}
+	@echo '... installation complete.'
 
 clean:
-	@echo 'Cleaning...'
+	@echo 'Cleaning ...'
 	@go clean
+	@echo '... clean complete.'
+
+check:
+	@echo 'Linting ...'
+	@golangci-lint run --config ./lint/default.yml
+	@echo '... lint complete.'
 
 install: build
 	@echo installing executable file to /usr/bin/roguelike
