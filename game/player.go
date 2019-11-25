@@ -2,7 +2,7 @@ package game
 
 import tl "github.com/JoelOtter/termloop"
 
-const char = '@'
+const char = '웃'
 
 // Player defines the entity controlled by the user
 type Player struct {
