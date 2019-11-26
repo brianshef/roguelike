@@ -15,9 +15,12 @@ type PlayerInfo struct {
 }
 
 // NewPlayerInfo is a factory function to construct a new PlayerInfo instance
-func NewPlayerInfo(p *player.Player) *PlayerInfo {
-	info := fmt.Sprintf("Roguelike by Brian Shef")
-	return &PlayerInfo{tl.NewText(2, 1, info, tl.ColorBlue, tl.ColorBlack), p}
+// along with its panel ( background rectangle )
+func NewPlayerInfo(p *player.Player) (info *PlayerInfo, panel *tl.Rectangle) {
+	msg := fmt.Sprintf("Roguelike by Brian Shef")
+	panel = tl.NewRectangle(0, 0, 100, 3, tl.ColorBlack)
+	info = &PlayerInfo{tl.NewText(2, 1, msg, tl.ColorBlue, tl.ColorBlack), p}
+	return
 }
 
 // Tick defines the game logic of the info

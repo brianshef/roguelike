@@ -15,9 +15,8 @@ type Player struct {
 	isColliding bool
 	prevX       int
 	prevY       int
+	tick        int
 }
-
-func (player *Player) updateMetadata(screen *tl.Screen) {}
 
 // Draw defines the behavior for drawing the Player on the screen
 func (player *Player) Draw(screen *tl.Screen) {
@@ -29,6 +28,7 @@ func (player *Player) Draw(screen *tl.Screen) {
 
 // Tick defines the core logic of the Player
 func (player *Player) Tick(event tl.Event) {
+	player.tick++
 	if event.Type == tl.EventKey {
 		player.isColliding = false
 		player.prevX, player.prevY = player.Position()
@@ -48,20 +48,34 @@ func (player *Player) Tick(event tl.Event) {
 // Collide defines the behavior for the Player collisions
 func (player *Player) Collide(collision tl.Physical) {
 	if _, ok := collision.(*tl.Rectangle); ok {
-		player.SetPosition(player.prevX, player.prevY)
 		player.isColliding = true
+		player.SetPosition(player.prevX, player.prevY)
 		return
 	}
 }
 
 // Status returns a string with critical status information about the Player instance
-func (player *Player) Status() string {
+func (player *Player) Status(a ...interface{}) (status string) {
 	x, y := player.Position()
-	status := fmt.Sprintf(
-		"[ player @ (%v,%v) | colliding: %v ]",
-		x, y, player.isColliding,
+
+	colliding := ""
+	if player.isColliding {
+		colliding = "colliding "
+	}
+
+	extra := ""
+	if len(a) > 0 {
+		extra = fmt.Sprintf("%v", a)
+	}
+
+	status = fmt.Sprintf(
+		"%v: [ player @ (%v,%v) %v] %v",
+		player.tick,
+		x, y, colliding,
+		extra,
 	)
-	return status
+
+	return
 }
 
 // InitPlayer adds the Player to the level
