@@ -1,4 +1,4 @@
-package game
+package player
 
 import (
 	"fmt"
@@ -11,10 +11,10 @@ const char = '웃'
 // Player defines the entity controlled by the user
 type Player struct {
 	*tl.Entity
-	level		*tl.BaseLevel
+	level       *tl.BaseLevel
 	isColliding bool
-	prevX      	int
-	prevY      	int
+	prevX       int
+	prevY       int
 }
 
 func (player *Player) updateMetadata(screen *tl.Screen) {}
@@ -58,7 +58,7 @@ func (player *Player) Collide(collision tl.Physical) {
 func (player *Player) Status() string {
 	x, y := player.Position()
 	status := fmt.Sprintf(
-		"[ player @ (%v,%v) | colliding: %v ]", 
+		"[ player @ (%v,%v) | colliding: %v ]",
 		x, y, player.isColliding,
 	)
 	return status

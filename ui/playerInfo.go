@@ -1,7 +1,9 @@
-package game
+package ui
 
 import (
 	"fmt"
+
+	"github.com/brianshef/roguelike/player"
 
 	tl "github.com/JoelOtter/termloop"
 )
@@ -9,11 +11,11 @@ import (
 // PlayerInfo is a simple data struct to hold text info about the player
 type PlayerInfo struct {
 	*tl.Text
-	player *Player
+	player *player.Player
 }
 
 // NewPlayerInfo is a factory function to construct a new PlayerInfo instance
-func NewPlayerInfo(p *Player) *PlayerInfo {
+func NewPlayerInfo(p *player.Player) *PlayerInfo {
 	info := fmt.Sprintf("Roguelike by Brian Shef")
 	return &PlayerInfo{tl.NewText(2, 1, info, tl.ColorBlue, tl.ColorBlack), p}
 }
