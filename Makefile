@@ -8,7 +8,7 @@ endif
 .PHONY: all clean check build install uninstall
 
 
-all: clean check build
+all: clean build
 
 build:
 	@echo 'Building roguelike ...'
