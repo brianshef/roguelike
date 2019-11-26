@@ -25,17 +25,11 @@ func NewGame() (g *tl.Game, err error) {
 
 	// Core Game
 	g = tl.NewGame()
+	Game = g
 	g.Screen().SetFps(fps)
 
 	// Level
-	level := tl.NewBaseLevel(tl.Cell{
-		Bg: tl.ColorBlack,
-		Fg: tl.ColorGreen,
-		Ch: '.',
-	})
-
-	// Environment
-	level.AddEntity(tl.NewRectangle(10, 10, 50, 20, tl.ColorWhite))
+	level := GenerateLevel()
 
 	// Player
 	if player == nil {
